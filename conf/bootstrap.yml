@@ -1,0 +1,39 @@
+server:
+  port: 5010
+
+spring:
+  application:
+    name: cam-api-gateway
+  profiles:
+    active: develop
+  cloud:
+    config:
+      uri: http://localhost:5020
+    gateway:
+      default-filters: 
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+              allowedOrigins: "http://localhost:8091,http://localhost:9091, http://amkcwl8628.amk.st.com:3000,http://localhost:3000,http://localhost:3001"
+              allowedMethods: "*"
+              allowedHeaders: "*"  
+              allowCredentials: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 180s
+      metrics:
+        enabled: true
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
